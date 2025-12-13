@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  unifi-timelapse:
+    build: .
+    container_name: unifi-timelapse
+    restart: unless-stopped
+    environment:
+      - UNIFI_HOST=192.168.1.1       # Replace with your Console IP
+      - UNIFI_API_KEY=YOUR_API_KEY_HERE
+      - SNAPSHOT_INTERVAL=60         # Take a photo every 60 seconds
+      - RETENTION_DAYS_IMAGES=3      # Keep raw images for 3 days
+      - RETENTION_DAYS_VIDEOS=30     # Keep generated videos for 30 days
+      - TZ=America/New_York          # Set your timezone
+    volumes:
+      - ./data:/data                 # Where images/videos/logs will be stored
