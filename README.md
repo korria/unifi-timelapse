@@ -64,4 +64,4 @@ services:
 ### 4. Build and Run
 
 Execute the following command in the project directory:
-`docker-compose up -d --build`
+`docker-compose up -d --build` 
