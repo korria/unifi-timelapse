@@ -6,11 +6,30 @@ services:
     container_name: unifi-timelapse
     restart: unless-stopped
     environment:
-      - UNIFI_HOST=192.168.1.1       # Replace with your Console IP
-      - UNIFI_API_KEY=YOUR_API_KEY_HERE
-      - SNAPSHOT_INTERVAL=60         # Take a photo every 60 seconds
-      - RETENTION_DAYS_IMAGES=3      # Keep raw images for 3 days
-      - RETENTION_DAYS_VIDEOS=30     # Keep generated videos for 30 days
-      - TZ=America/New_York          # Set your timezone
+      # --- Unifi Connection ---
+      - UNIFI_HOST=192.168.50.30       # IP of your CloudKey/UDM/UNVR
+      - UNIFI_API_KEY=YOUR_API_KEY
+      
+      # --- Camera Selection ---
+      # Leave empty to select ALL cameras, or provide a comma-separated list of names
+      - CAMERA_NAMES=Weathercam,Driveway,Backyard 
+      
+      # --- Snapshot Settings ---
+      - SNAPSHOT_INTERVAL=60           # Seconds between photos
+      - FORCE_HIGH_QUALITY=true        # 'true' = Full Sensor Res (4K/2K), 'false' = 720p Proxy
+      
+      # --- Video Settings ---
+      - VIDEO_CRF=23                   # Quality (0-51). 18=High, 23=Default, 28=Low.
+      - VIDEO_PRESET=medium            # Encoding speed: ultrafast, superfast, medium, slow.
+      - VIDEO_FRAMERATE=30             # FPS for the output video
+      
+      # --- Retention ---
+      - RETENTION_DAYS_IMAGES=3        # Days to keep raw JPEGs
+      - RETENTION_DAYS_VIDEOS=30       # Days to keep generated MP4s
+      
+      # --- System ---
+      - TZ=America/Denver              # Set your timezone
+      - LOG_LEVEL=INFO
+      
     volumes:
-      - ./data:/data                 # Where images/videos/logs will be stored
+      - ./data:/data
